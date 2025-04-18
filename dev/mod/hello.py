@@ -3,6 +3,6 @@
   # Author: Nori (ArielF-Coding)
 
 def main(user_name):
-  printf(f'Hello {user_name}.')
+  print(f'Hello {user_name}.')
 
 main('mod')
