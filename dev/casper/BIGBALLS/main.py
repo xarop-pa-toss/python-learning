@@ -4,7 +4,7 @@ import helpers
 def main_menu():
     # Display menu and loop through options until exit
     while True:
-        choice = helpers.input_to_int("Big Balls Inc.\nWhat would you like to do?\nEnter 1 to Record a Sale.\nEnter 2 to Record a Purchase.\nEnter 3 to View Current Inventory.\nEnter 4 to View Monthly Report.")
+        choice = helpers.input_to_int("Big Balls Inc.\n\nWhat would you like to do?\nEnter 1 to Record a Sale.\nEnter 2 to Record a Purchase.\nEnter 3 to View Current Inventory.\nEnter 4 to View Monthly Report.")
         try: 
             # Needs options for Current Stock report and Monthly Sales report
             if choice is None:
@@ -17,8 +17,7 @@ def main_menu():
             elif choice == 3:
                 functions.view_inventory(saved_inventory)
             elif choice == 4:
-                functions.monthly_report(saved_sales)
-            else:
+                functions.monthly_report(saved_sales, saved_purchases)
                 print("Please enter a valid choice between 1-4.")
         except ValueError as e:
             print("Error: ", e)
@@ -37,6 +36,5 @@ if __name__ == '__main__':
     functions.save_csv(csv_folder/"inventory.csv", saved_inventory)
     functions.save_csv(csv_folder/"sales.csv", saved_sales)
     functions.save_csv(csv_folder/"purchases.csv", saved_purchases)
-    
-    
-    print("W Xarop sensei frfr ong gonna buy him a coffee and some puertorican food frfr ong.")
+
+    print("W Xarop sensei uwu frfr ong gonna buy him a coffee and some puertorican food frfr ong.")

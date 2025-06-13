@@ -1,5 +1,4 @@
 import datetime as dt
-import csv
 
 # List of numbered months used in monthly_report. Int wont return 01-09 and error appears
 months_str = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
@@ -7,15 +6,15 @@ months_str = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", 
 def input_to_int(question: str) -> int:
     while True:
         try:
-            ball_type = input(f"{question}\nEnter 'q' to exit.\n")
+            ball_type = input(f"\n{question}\nEnter 'q' to exit.\n")
             if ball_type == "q":
                 return None
             elif ball_type:
                 return int(ball_type)
             else:
-                print("Please enter a valid input.")
+                print("\nPlease enter a valid input.")
         except ValueError:
-            print("Invalid input. Please enter a valid choice.")
+            print("\nInvalid input. Please enter a valid choice.")
         except ZeroDivisionError as e:
             print("Can't divide by zero.", e)
         except Exception as e:
