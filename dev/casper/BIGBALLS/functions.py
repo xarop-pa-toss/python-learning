@@ -34,7 +34,7 @@ def save_csv(filename: str, sale_dict_list: list) -> bool:
 # ATTENTION #2: DO NOT SAVE TO CSV DIRECTLY. Use the lists that were created by reading the CSVs!
 def record_sale(saved_purchases: list, saved_inventory: list) -> bool:
     while True:
-        ball_type = helpers.input_to_int("\nWhat type of ball would you like to buy?\n\nEnter 1 for Basketballs\nEnter 2 for Bouncy Balls\nEnter 3 for Yoga Balls\nEnter 4 for Tennis Balls\nEnter 5 for Golf Balls")
+        ball_type = helpers.input_to_int("What type of ball would you like to sell?\n\nEnter 1 for Basketballs\nEnter 2 for Bouncy Balls\nEnter 3 for Yoga Balls\nEnter 4 for Tennis Balls\nEnter 5 for Golf Balls")
         if ball_type is None:
             return False
         elif ball_type == 1:
@@ -50,12 +50,12 @@ def record_sale(saved_purchases: list, saved_inventory: list) -> bool:
         else:
             print("\nPlease enter a valid choice between 1-5.")
             return False
-        amount = helpers.input_to_int(f"\nEnter how many {ball_type} would you like to buy.")
+        amount = helpers.input_to_int(f"Enter how many {ball_type} would you like to sell.")
         if amount is None: 
             return False
         elif amount <= 0:
             return print("Please enter a valid amount.")
-        confirmation = input(f"\nYou have purchased {amount} {ball_type}.\nDo you confirm?\nEnter 'Y' for Yes or 'N' for No.\n").upper()
+        confirmation = input(f"\nYou have sold {amount} {ball_type}.\nDo you confirm?\nEnter 'Y' for Yes or 'N' for No.\n").upper()
         if confirmation == "Y":
             try:
             # Update inventory values
@@ -63,13 +63,15 @@ def record_sale(saved_purchases: list, saved_inventory: list) -> bool:
                     saved_quantity = int(sale_dict["Quantity"]) - amount 
                     if sale_dict["Ball Type"] == ball_type:
                         if saved_quantity < 0: 
-                            print(f"\nUnable to buy {amount} {ball_type}.\nThis is our current stock.")
+                            print(f"\nUnable to sell {amount} {ball_type}.\nThis is our current stock for {ball_type}.")
                             print(f"{ball_type}: {sale_dict['Quantity']}")
                             return False
                         sale_dict["Quantity"] = int(saved_quantity)
                         # Insert new line in sales list                                                          
-                        saved_purchases.append({"Ball Type": str(ball_type), "Date": str(helpers.date()), "Quantity": int(amount)})
-                        print(f"\nYou have purchased {amount} {ball_type}.")       
+                        saved_purchases.append({"Ball Type": str(ball_type), "Date": str(helpers.date()), "Time": str(helpers.time()), "Quantity": int(amount)})
+                        print(f"\nYou have sold {amount} {ball_type}.\nThis is our current stock.")
+                        print(tab(saved_inventory, headers="keys", tablefmt="grid"))
+                          
             except ValueError as e:
                 print("Error:", e)     
         elif confirmation == "N":
@@ -82,7 +84,7 @@ def record_sale(saved_purchases: list, saved_inventory: list) -> bool:
 # ATTENTION: You can only have 250 units max of any ball because the Big Balls Inc. warehouse is pretty small. A purchase that exceeds the stock capacity should not be allowed to happen and the user should be informed.
 def record_purchase(saved_purchases: list, saved_inventory: list) -> bool:
     while True:
-        ball_type = helpers.input_to_int("\nWhat type of ball would you like to buy?\nEnter 1 for Basketballs\nEnter 2 for Bouncy Balls\nEnter 3 for Yoga Balls\nEnter 4 for Tennis Balls\nEnter 5 for Golf Balls")
+        ball_type = helpers.input_to_int("What type of ball would you like to buy?\nEnter 1 for Basketballs\nEnter 2 for Bouncy Balls\nEnter 3 for Yoga Balls\nEnter 4 for Tennis Balls\nEnter 5 for Golf Balls")
         if ball_type is None:
             return
         elif ball_type == 1:
@@ -98,7 +100,7 @@ def record_purchase(saved_purchases: list, saved_inventory: list) -> bool:
         else:
             print("\nPlease enter a valid choice between 1-5.")
             return
-        amount = helpers.input_to_int(f"\nEnter how many {ball_type} would you like to buy.")
+        amount = helpers.input_to_int(f"Enter how many {ball_type} would you like to sell.")
         if amount is None: 
             return False
         elif amount <= 0:
@@ -111,13 +113,14 @@ def record_purchase(saved_purchases: list, saved_inventory: list) -> bool:
                     saved_quantity = int(sale_dict["Quantity"]) + amount  
                     if sale_dict["Ball Type"] == ball_type:
                         if saved_quantity > 250: 
-                            print(f"Unable to buy {amount} {ball_type}\nThis is our current stock.")
+                            print(f"Unable to sell {amount} {ball_type}\nThis is our current stock for {ball_type}.")
                             print(f"{ball_type}: {sale_dict['Quantity']}\nPlease keep our stock below 250 units.")
                             return False
                         sale_dict["Quantity"] = int(saved_quantity)
                         # Insert new line in purchases list
-                        saved_purchases.append({"Ball Type": str(ball_type), "Date": str(helpers.date()), "Quantity": int(amount)})
+                        saved_purchases.append({"Ball Type": str(ball_type), "Date": str(helpers.date()), "Time": str(helpers.time()), "Quantity": int(amount)})
                         print(f"\nYou have purchased {amount} {ball_type} for restock")
+                        print(f"This is our current stock.\n{tab(saved_inventory, headers='keys', tablefmt='grid')})")
             except ValueError as e:
                 print("Error:", e)
             except Exception as e:
@@ -138,7 +141,7 @@ def view_inventory(saved_inventory: list):
 def monthly_report_sales(saved_purchases):
     while True:
         year = helpers.input_to_int("Enter what year would you like a report on.")
-        if year < 2015 or year > helpers.year_now():
+        if year < 2015 or year != helpers.year_now():
             print(f"\nPlease enter a year between 2015-{helpers.year_now()}.")
             return False
         else:
@@ -199,7 +202,9 @@ def monthly_report(saved_sales, saved_purchases):
         print("\n***Big Balls Inc. monthly report menu***")
         try:
             choice = helpers.input_to_int("Would you like a report on Sales or Purchases?\n\nPlease enter 1 for Sales Report or Enter 2 for Purchases Report")
-            if choice == 1:
+            if choice is None:
+                return 
+            elif choice == 1:
                 monthly_report_sales(saved_sales)
             elif choice == 2:
                 monthly_report_purchases(saved_purchases)

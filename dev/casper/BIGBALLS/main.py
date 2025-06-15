@@ -18,7 +18,6 @@ def main_menu():
                 functions.view_inventory(saved_inventory)
             elif choice == 4:
                 functions.monthly_report(saved_sales, saved_purchases)
-                print("Please enter a valid choice between 1-4.")
         except ValueError as e:
             print("Error: ", e)
 

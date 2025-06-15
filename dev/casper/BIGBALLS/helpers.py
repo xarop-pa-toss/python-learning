@@ -22,7 +22,11 @@ def input_to_int(question: str) -> int:
                   
 def date():
     now = dt.datetime.now()
-    return now.strftime("%m-%Y")
+    return now.strftime("%m-%d-%y")
+
+def time():
+    now = dt.datetime.now()
+    return now.strftime("%H:%M")
 
 # Current year for user validation in monthly_report() instead of manually updating it yearly
 # This func might be used for future user options

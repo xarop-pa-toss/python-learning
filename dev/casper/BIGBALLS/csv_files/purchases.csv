@@ -1,5 +1,3 @@
-Ball Type,Date,Quantity
-Basketballs,06-2025,205
-Yoga Balls,06-2025,225
-Tennis Balls,06-2025,15
-Golf Balls,06-2025,240
+Ball Type,Date,Time,Quantity
+Basketballs,06-15-25,14:19,34
+Golf Balls,06-15-25,14:19,65
