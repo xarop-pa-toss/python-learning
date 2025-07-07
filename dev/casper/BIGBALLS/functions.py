@@ -70,8 +70,7 @@ def record_sale(saved_purchases: list, saved_inventory: list) -> bool:
                         # Insert new line in sales list                                                          
                         saved_purchases.append({"Ball Type": str(ball_type), "Date": str(helpers.date()), "Time": str(helpers.time()), "Quantity": int(amount)})
                         print(f"\nYou have sold {amount} {ball_type}.\nThis is our current stock.")
-                        print(tab(saved_inventory, headers="keys", tablefmt="grid"))
-                          
+                        print(tab(saved_inventory, headers="keys", tablefmt="grid"))              
             except ValueError as e:
                 print("Error:", e)     
         elif confirmation == "N":
@@ -100,7 +99,7 @@ def record_purchase(saved_purchases: list, saved_inventory: list) -> bool:
         else:
             print("\nPlease enter a valid choice between 1-5.")
             return
-        amount = helpers.input_to_int(f"Enter how many {ball_type} would you like to sell.")
+        amount = helpers.input_to_int(f"Enter how many {ball_type} would you like to purchase.")
         if amount is None: 
             return False
         elif amount <= 0:
