@@ -35,5 +35,5 @@ if __name__ == '__main__':
     functions.save_csv(csv_folder/"inventory.csv", saved_inventory)
     functions.save_csv(csv_folder/"sales.csv", saved_sales)
     functions.save_csv(csv_folder/"purchases.csv", saved_purchases)
-
-    print("W Xarop sensei uwu frfr ong gonna buy him a coffee and some puertorican food frfr ong.")
+    
+    print("finished")
